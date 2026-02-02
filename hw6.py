@@ -8,8 +8,8 @@ moscow_times = "Wednesday, October 2, 2002"
 the_guardian = "Friday, 11.10.13"
 daily_news = "Thursday, 18 August 1977"
 
-mt_format = datetime.strptime(moscow_times, "%A, %B %-d, %Y")
-tg_format = datetime.strptime(the_guardian, "%A, %m.%d.%y")
+mt_format = datetime.strptime(moscow_times, "%A, %B %d, %Y")
+tg_format = datetime.strptime(the_guardian, "%A, %d.%m.%y")
 dn_format = datetime.strptime(daily_news, "%A, %d %B %Y")
 
 
@@ -19,15 +19,17 @@ dn_format = datetime.strptime(daily_news, "%A, %d %B %Y")
 
 stream = ["2018-04-02", "2018-02-29", "2018-19-02"]
 
-
 def date_validate(date_list: list[str]) -> bool:
+    stream_bool = []    # Можно сделать и через dict, где key это stream[i], а value bool
+    
     for date in date_list:
         try:
             if datetime.strptime(date, "%Y-%m-%d"):
-                print(date, True)
+                stream_bool.append(True)
         except ValueError:
-            print(date, False)
+            stream_bool.append(False)
 
+    return stream_bool
 
 # Задание №3
 # Напишите функцию date_range, которая возвращает список дат за период от start_date до end_date.
@@ -71,6 +73,6 @@ def delete_and_return_last_user(region, default_list=["A100", "A101", "A102"]):
 
 
 print(delete_and_return_last_user(1), delete_and_return_last_user(1))
-# 1. List index out of range говорит о том, что функция пытается вернуть элемент с index, которого не существует
+# 1. List index out of range возникает именно потому, что список «запомнил» изменения от первого вызова и стал короче.
 # 2. При повторном запуске функция не отрабатывает потому что была нарушена одна из критических ошибок, в которой говорится, что объекты не стоит(иногда нельзя) изменять во итерации.
 #    Потому что индексы при удалении смещаются, а на 0-ой итерации все индексы на месте(переменные сделаны под начальное состояние функции), по этому она правильно отрабатывает
