@@ -19,9 +19,10 @@ dn_format = datetime.strptime(daily_news, "%A, %d %B %Y")
 
 stream = ["2018-04-02", "2018-02-29", "2018-19-02"]
 
-def date_validate(date_list: list[str]) -> bool:
-    stream_bool = []    # Можно сделать и через dict, где key это stream[i], а value bool
-    
+
+def date_validate(date_list: list[str]) -> list[bool]:
+    stream_bool = []  # Можно сделать и через dict, где key это stream[i], а value bool
+
     for date in date_list:
         try:
             if datetime.strptime(date, "%Y-%m-%d"):
@@ -31,13 +32,14 @@ def date_validate(date_list: list[str]) -> bool:
 
     return stream_bool
 
+
 # Задание №3
 # Напишите функцию date_range, которая возвращает список дат за период от start_date до end_date.
 # Даты должны вводиться в формате YYYY-MM-DD.
 # В случае неверного формата или при start_date > end_date должен возвращаться пустой список.
 
 
-def date_range() -> list[datetime]:
+def date_range() -> list[str]:
     try:
         start_date = datetime.strptime(input(), "%Y-%m-%d")
         end_date = datetime.strptime(input(), "%Y-%m-%d")
@@ -73,6 +75,18 @@ def delete_and_return_last_user(region, default_list=["A100", "A101", "A102"]):
 
 
 print(delete_and_return_last_user(1), delete_and_return_last_user(1))
+
 # 1. List index out of range возникает именно потому, что список «запомнил» изменения от первого вызова и стал короче.
 # 2. При повторном запуске функция не отрабатывает потому что была нарушена одна из критических ошибок, в которой говорится, что объекты не стоит(иногда нельзя) изменять во итерации.
 #    Потому что индексы при удалении смещаются, а на 0-ой итерации все индексы на месте(переменные сделаны под начальное состояние функции), по этому она правильно отрабатывает
+
+
+def delete_and_return_last_user(region, default_list=None):  # Один из вариантов, не привязанный к DEFAULT_USER_COUNT и с отсутствием ошибки list index out of range
+    if default_list is None:
+        default_list = ["A100", "A101", "A102"]
+
+    default_list.pop()
+    return default_list[-1]
+
+
+print(delete_and_return_last_user(1, ["1", "2", "3"]), delete_and_return_last_user(1))
